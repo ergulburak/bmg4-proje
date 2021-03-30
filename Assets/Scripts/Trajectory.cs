@@ -9,7 +9,7 @@ public class Trajectory : MonoBehaviour
 
     public float timeSensitivity = 0.1f;
     private float _timeStamp;
-    
+
     public LayerMask canHit;
 
     public void UpdateDots(Vector3 playerPos, Vector2 forceApplied)
@@ -19,38 +19,36 @@ public class Trajectory : MonoBehaviour
         lineArray[0] = playerPos;
         for (int i = 1; i < lineArray.Length; i++)
         {
-            lineArray[i].x = (playerPos.x + forceApplied.x * i/20);
-            lineArray[i].y = (playerPos.y + forceApplied.y * i/20) -
-                             (Physics2D.gravity.magnitude * i/20 * i/20) / 2f;
-            if (i > 5)
-                if (/*Physics2D.Linecast(lineArray[i - 1], lineArray[i], canHit)*/ CheckForCollision(lineArray[i]))
-                {
-                    temp = i;
-                    break;
-                }
+            lineArray[i].x = (playerPos.x + forceApplied.x * i / 20);
+            lineArray[i].y = (playerPos.y + forceApplied.y * i / 20) -
+                             (Physics2D.gravity.magnitude * i / 20 * i / 20) / 2f;
+            if (CheckForCollision(lineArray[i]))
+            {
+                temp = i;
+                break;
+            }
         }
 
-        if (temp > 5)
-        {
-            line.positionCount = temp;
-        }
-        else
-        {
-            line.positionCount = resolution;
-        }
+        line.positionCount = temp;
+
 
         line.SetPositions(lineArray);
     }
+
     private bool CheckForCollision(Vector2 position)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.05f/*collisionCheckRadius*/);
-        if(hits.Length > 0)
+        LayerMask mask = 1 << LayerMask.NameToLayer("Walkable") | 1 << LayerMask.NameToLayer("Wall");
+        ContactFilter2D filter2D = new ContactFilter2D();
+        filter2D.SetLayerMask(mask);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(position, 0.05f /*collisionCheckRadius*/, filter2D.layerMask);
+        if (hits.Length > 0)
         {
             //We hit something 
             //check if its a wall or seomthing
             //if its a valid hit then return true
-            return  true;
+            return true;
         }
+
         return false;
     }
 
