@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using Zombies;
 
 namespace Player
 {
     public class PlayerMovementSystem : MonoBehaviour
     {
+        public float damage = 20f;
         [HideInInspector] public Rigidbody2D rb;
         [HideInInspector] public CircleCollider2D col;
 
@@ -120,6 +123,23 @@ namespace Player
             _player.Push(_force);
             _saw.Push(_force);
             trajectory.Hide();
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Zombie"))
+            {
+                other.gameObject.GetComponent<ZombieSystem>().TakeDamage(damage,other.contacts[0].point);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            
+            if (other.gameObject.CompareTag("Flag") && GameManager.instance.EnemyCount == 0)
+            {
+                Debug.Log("Oyun Bitti");
+            }
         }
     }
 }

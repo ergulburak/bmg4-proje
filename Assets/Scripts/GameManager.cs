@@ -8,12 +8,24 @@ public class GameManager : MonoBehaviour
 {
     #region Singleton class: GameManager
 
-    private static GameManager _ınstance;
+    public static GameManager instance;
+    private int _enemyCount;
+
+    public int EnemyCount
+    {
+        get => _enemyCount;
+        set => _enemyCount = value;
+    }
 
     private void Awake()
     {
-        if (_ınstance == null)
-            _ınstance = this;
+        if (instance == null)
+            instance = this;
+    }
+
+    private void Update()
+    {
+        _enemyCount = GameObject.FindGameObjectsWithTag("Zombie").Length;
     }
 
     #endregion

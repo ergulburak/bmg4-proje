@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Top
-  - Bottom
-  - Right
-  - Left
+  - Flag
+  - Zombie
+  - Background
+  - Splat Holder
   layers:
   - Default
   - TransparentFX
@@ -19,7 +19,7 @@ TagManager:
   - 
   - Walkable
   - Wall
-  - 
+  - Background
   - 
   - 
   - 
