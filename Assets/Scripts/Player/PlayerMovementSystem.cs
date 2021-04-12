@@ -1,4 +1,5 @@
 ﻿using System;
+using UI;
 using UnityEngine;
 using Zombies;
 
@@ -61,21 +62,23 @@ namespace Player
 
         private void LateUpdate()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                _isDragging = true;
-                OnDragStart();
-            }
+            if(GameSceneUIHandler.Instance.status==GameSceneUIHandler.Status.OnGoing){
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _isDragging = true;
+                    OnDragStart();
+                }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                _isDragging = false;
-                OnDragEnd();
-            }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    _isDragging = false;
+                    OnDragEnd();
+                }
 
-            if (_isDragging)
-            {
-                OnDrag();
+                if (_isDragging)
+                {
+                    OnDrag();
+                }
             }
         }
 

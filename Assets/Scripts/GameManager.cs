@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         _enemyCount = GameObject.FindGameObjectsWithTag("Zombie").Length;
+        if (_enemyCount == 0)
+        {
+            
+        }
     }
 
     #endregion
