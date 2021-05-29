@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Design.Serialization;
+using Cinemachine;
 using JetBrains.Annotations;
+using Player;
 using UnityEngine;
 
 
@@ -9,6 +11,8 @@ public class GameManager : MonoBehaviour
     #region Singleton class: GameManager
 
     private static GameManager _instance;
+
+    public CinemachineVirtualCamera myCamera;
 
     public static GameManager Instance
     {
@@ -20,6 +24,7 @@ public class GameManager : MonoBehaviour
     }
 
     private int _enemyCount;
+    public GameObject[] characters;
 
     public int EnemyCount
     {
@@ -42,7 +47,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        var player = Instantiate(characters[CharacterManager.Instance.CurrentCharacterIndex], Vector3.zero,
+            Quaternion.identity);
+        player.GetComponent<PlayerMovementSystem>().trajectory = GetComponent<Trajectory>();
+        myCamera.Follow = player.transform;
+        myCamera.LookAt = player.transform;
     }
 
     private void Update()

@@ -139,7 +139,7 @@ namespace Player
         private void OnTriggerEnter2D(Collider2D other)
         {
             
-            if (other.gameObject.CompareTag("Flag") && GameManager.instance.EnemyCount == 0)
+            if (other.gameObject.CompareTag("Flag") && GameManager.Instance.EnemyCount == 0)
             {
                 Debug.Log("Oyun Bitti");
             }
