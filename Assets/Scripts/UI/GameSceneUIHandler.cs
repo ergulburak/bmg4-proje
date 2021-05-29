@@ -23,10 +23,17 @@ namespace UI
 
         public Status status = Status.OnGoing;
         
-        private void Awake()
+        void Awake()
         {
-            if (Instance == null)
+            if (Instance)
+            {
+                DestroyImmediate(gameObject);
+            }
+            else
+            {
                 Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
         }
 
         private void Start()
@@ -39,7 +46,7 @@ namespace UI
         {
             if (!(enemyCount is null))
             {
-                enemyCount.text = GameManager.instance.EnemyCount.ToString();
+                enemyCount.text = GameManager.Instance.EnemyCount.ToString();
             }
         }
 

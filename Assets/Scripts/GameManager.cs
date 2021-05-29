@@ -8,7 +8,17 @@ public class GameManager : MonoBehaviour
 {
     #region Singleton class: GameManager
 
-    public static GameManager instance;
+    private static GameManager _instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null) Debug.LogError("Game Manager is null");
+            return _instance;
+        }
+    }
+
     private int _enemyCount;
 
     public int EnemyCount
@@ -17,10 +27,22 @@ public class GameManager : MonoBehaviour
         set => _enemyCount = value;
     }
 
-    private void Awake()
+    void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (_instance)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
@@ -28,7 +50,6 @@ public class GameManager : MonoBehaviour
         _enemyCount = GameObject.FindGameObjectsWithTag("Zombie").Length;
         if (_enemyCount == 0)
         {
-            
         }
     }
 

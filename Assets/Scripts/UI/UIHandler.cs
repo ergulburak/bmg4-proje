@@ -8,14 +8,22 @@ namespace UI
     {
         [Header("MainMenu")] public GameObject mainLayer;
         public Button startButton;
+        public Button selectCharacter;
 
         void Start()
         {
             startButton.onClick.AddListener(StartButton);
+            selectCharacter.onClick.AddListener(CharacterButton);
         }
 
         private void StartButton()
         {
+            SoundManager.Instance.PlaySound(SoundManager.Instance.button);
+            SceneManager.LoadScene(2);
+        }
+        private void CharacterButton()
+        {
+            SoundManager.Instance.PlaySound(SoundManager.Instance.button);
             SceneManager.LoadScene(1);
         }
     }

@@ -26,8 +26,9 @@ public class CharacterScroller : MonoBehaviour
     [Header("UI stuff")] public Text totalGold;
     public Text characterName;
     public Text characterPrice;
-    public Button selectButon;
+    public Button selectButton;
     public Button unlockButton;
+    public Button backButton;
     public Button lockButton;
     public Color lockColor = Color.black;
 
@@ -45,6 +46,8 @@ public class CharacterScroller : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        backButton.onClick.AddListener(BackToMain);
+        
         lockColor.a = 0; // need this for later setting material colors to work
 
         int currentCharacterIndex = CharacterManager.Instance.CurrentCharacterIndex;
@@ -168,11 +171,11 @@ public class CharacterScroller : MonoBehaviour
             {
                 unlockButton.gameObject.SetActive(false);
                 lockButton.gameObject.SetActive(false);
-                selectButon.gameObject.SetActive(true);
+                selectButton.gameObject.SetActive(true);
             }
             else
             {
-                selectButon.gameObject.SetActive(false);
+                selectButton.gameObject.SetActive(false);
                 if (CoinManager.Instance.Coins >= charData.price)
                 {
                     unlockButton.gameObject.SetActive(true);
@@ -239,7 +242,7 @@ public class CharacterScroller : MonoBehaviour
         float sign = snapDistance / snapDistanceAbs;
         float movedDistance = 0;
 
-        //SoundManager.Instance.PlaySound(SoundManager.Instance.tick);
+        SoundManager.Instance.PlaySound(SoundManager.Instance.tick);
 
         while (Mathf.Abs(movedDistance) < snapDistanceAbs)
         {
@@ -335,14 +338,16 @@ public class CharacterScroller : MonoBehaviour
             }
 
             unlockButton.gameObject.SetActive(false);
-            selectButon.gameObject.SetActive(true);
+            selectButton.gameObject.SetActive(true);
 
-            //SoundManager.Instance.PlaySound(SoundManager.Instance.unlock);
+            SoundManager.Instance.PlaySound(SoundManager.Instance.unlock);
         }
     }
 
     public void SelectButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.button);
+        
         CharacterManager.Instance.CurrentCharacterIndex =
             currentCharacter.GetComponent<Character>().characterSequenceNumber;
         BackToMain();
@@ -350,6 +355,8 @@ public class CharacterScroller : MonoBehaviour
 
     public void BackToMain()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.button);
+        
         SceneManager.LoadScene("Main");
     }
 }
